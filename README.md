@@ -29,4 +29,6 @@ resulting screenshot of the part is as follows:
 
 ![settings](https://github.com/NorbertFeria/weather-shortcode/assets/4241513/2177f717-f77e-4c4a-ab3a-7baa47183321)
 
+to view the [part 1 commit here](https://github.com/NorbertFeria/weather-shortcode/commit/2091cd0723305acfa5da427724f2ec42e7f58638)
+
 
