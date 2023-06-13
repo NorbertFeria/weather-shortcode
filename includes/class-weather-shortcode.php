@@ -49,6 +49,15 @@ class Weather_Shortcode {
 	protected $plugin_name;
 
 	/**
+	 * The label of this plugin. PART 1.
+	 *
+	 * @since    1.0.0
+	 * @access   protected
+	 * @var      string    $plugin_label    The string used to uniquely identify this plugin.
+	 */
+	protected $plugin_label;
+
+	/**
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
@@ -72,11 +81,12 @@ class Weather_Shortcode {
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->plugin_name = 'weather-shortcode';
+		$this->plugin_name = 'weather_shortcode';
+		$this->plugin_label = 'Weather Shortcode';
 
 		$this->load_dependencies();
 		$this->set_locale();
-		$this->define_admin_hooks();
+		$this->define_admin_settings_hooks();
 		$this->define_public_hooks();
 
 	}
@@ -112,9 +122,9 @@ class Weather_Shortcode {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-weather-shortcode-i18n.php';
 
 		/**
-		 * The class responsible for defining all actions that occur in the admin area.
+		 * The class responsible for the setting page of the plugin in the admin area. PART 1.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-weather-shortcode-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-admin-settings.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
@@ -143,20 +153,23 @@ class Weather_Shortcode {
 
 	}
 
+
 	/**
-	 * Register all of the hooks related to the admin area functionality
-	 * of the plugin.
+	 * Register all of the hooks related to the admin settings
+	 * of the plugin. PART 1.
 	 *
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_admin_hooks() {
+	private function define_admin_settings_hooks() {
 
-		$plugin_admin = new Weather_Shortcode_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_settings = new Plugin_Admin_Settings( $this->get_plugin_name(), $this->get_plugin_label(), $this->get_version() );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_settings, 'enqueue_settings_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_settings, 'enqueue_settings_scripts' );
 
+		$this->loader->add_action( 'admin_menu', $plugin_settings, 'add_menu_options' );
+		$this->loader->add_action('admin_init', $plugin_settings, 'register_settings' );
 	}
 
 	/**
@@ -193,6 +206,16 @@ class Weather_Shortcode {
 	 */
 	public function get_plugin_name() {
 		return $this->plugin_name;
+	}
+
+	/**
+	 * The label of the plugin. PART 1.
+	 *
+	 * @since     1.0.0
+	 * @return    string    The label of the plugin.
+	 */
+	public function get_plugin_label() {
+		return $this->plugin_label;
 	}
 
 	/**
