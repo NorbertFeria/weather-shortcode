@@ -132,6 +132,12 @@ class Weather_Shortcode {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-weather-shortcode-public.php';
 
+		/**
+		 * This file contains custom functions used to connect third party through API PART 2
+		 * 
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/custom-functions.php';
+
 		$this->loader = new Weather_Shortcode_Loader();
 
 	}
